@@ -2,12 +2,12 @@
   "schema_version": 1,
   "service": "styio-release-root",
   "canonical_origin": "https://styio.io",
-  "github_release_repo": "eBioRing/styio.io",
+  "github_release_repo": "SymPolicy/styio.io",
   "status": "public binary releases are withdrawn pending rebuild",
   "current_release_root": null,
   "tools": [],
   "naming": {
-    "spio_cli": "spio-v<semver>",
+    "pafio_cli": "pafio-v<semver>",
     "styio_compiler": "styio-v<semver>",
     "release_root_snapshot": "release-root-YYYY.MM.DD.N"
   }

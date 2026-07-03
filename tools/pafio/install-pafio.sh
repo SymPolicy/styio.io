@@ -3,31 +3,26 @@ set -eu
 
 usage() {
   cat <<'USAGE'
-Usage: install-spio.sh [options]
+Usage: install-pafio.sh [options]
 
-Install a prebuilt spio binary from an HTTP(S) release root. This script is safe
+Install a prebuilt pafio binary from an HTTP(S) release root. This script is safe
 for a curl pipeline:
 
-  curl -fsSL https://packages.example.invalid/tools/spio/install-spio.sh | sh -s -- --base-url https://packages.example.invalid
-
-Legacy direct-binary layout is still supported:
-
-  curl -fsSL https://example.invalid/spio/install-spio.sh | sh -s -- --base-url https://example.invalid/spio
+  curl -fsSL https://packages.example.invalid/tools/pafio/install-pafio.sh | sh -s -- --base-url https://packages.example.invalid
 
 Options:
-  --base-url <url>      Release root. The installer first tries
-                        <url>/tools/spio/channel/<channel>/<platform>/version,
-                        then falls back to <url>/spio for legacy layouts.
+  --base-url <url>      Release root containing tools/pafio/channel and
+                        tools/pafio/releases paths.
   --channel <name>      Release channel to install (default: latest).
   --version <value>     Exact release version. Skips channel lookup.
-  --binary-url <url>    Exact URL for the spio binary. Bypasses release lookup.
+  --binary-url <url>    Exact URL for the pafio binary. Bypasses release lookup.
   --sha256-url <url>    Exact URL for the expected sha256 text.
   --platform <value>    Platform key to install. Defaults to uname detection.
   --install-dir <dir>   Install directory (default: /usr/local/bin).
-  --binary-name <name>  Installed executable name (default: spio).
+  --binary-name <name>  Installed executable name (default: pafio).
   --no-styio-shim       Do not install the companion styio shim.
   --no-release-root-config
-                        Do not write SPIO_HOME/config/tool-release-root.
+                        Do not write PAFIO_HOME/config/tool-release-root.
   --print-platform      Print the detected release platform and exit.
   --print-adapter       Print the detected Linux distro adapter and exit.
   -h, --help            Show this help.
@@ -35,7 +30,7 @@ USAGE
 }
 
 fail() {
-  echo "install-spio: $*" >&2
+  echo "install-pafio: $*" >&2
   exit 1
 }
 
@@ -44,16 +39,16 @@ lowercase() {
 }
 
 uname_s() {
-  if [ -n "${SPIO_INSTALL_UNAME_S:-}" ]; then
-    printf '%s\n' "$SPIO_INSTALL_UNAME_S"
+  if [ -n "${PAFIO_INSTALL_UNAME_S:-}" ]; then
+    printf '%s\n' "$PAFIO_INSTALL_UNAME_S"
   else
     uname -s
   fi
 }
 
 uname_m() {
-  if [ -n "${SPIO_INSTALL_UNAME_M:-}" ]; then
-    printf '%s\n' "$SPIO_INSTALL_UNAME_M"
+  if [ -n "${PAFIO_INSTALL_UNAME_M:-}" ]; then
+    printf '%s\n' "$PAFIO_INSTALL_UNAME_M"
   else
     uname -m
   fi
@@ -79,7 +74,7 @@ os_release_value() {
 }
 
 detect_distro_family() {
-  os_release_file="${SPIO_INSTALL_OS_RELEASE_FILE:-/etc/os-release}"
+  os_release_file="${PAFIO_INSTALL_OS_RELEASE_FILE:-/etc/os-release}"
   distro_id="$(os_release_value "$os_release_file" ID 2>/dev/null || true)"
   distro_like="$(os_release_value "$os_release_file" ID_LIKE 2>/dev/null || true)"
   tokens="$(printf ' %s %s ' "$distro_id" "$distro_like" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
@@ -107,15 +102,15 @@ detect_distro_family() {
 }
 
 detect_linux_libc() {
-  if [ -n "${SPIO_INSTALL_LIBC:-}" ]; then
-    libc_override="$(lowercase "$SPIO_INSTALL_LIBC")"
+  if [ -n "${PAFIO_INSTALL_LIBC:-}" ]; then
+    libc_override="$(lowercase "$PAFIO_INSTALL_LIBC")"
     case "$libc_override" in
       glibc|musl)
         echo "$libc_override"
         return 0
         ;;
       *)
-        fail "unsupported SPIO_INSTALL_LIBC value: $SPIO_INSTALL_LIBC"
+        fail "unsupported PAFIO_INSTALL_LIBC value: $PAFIO_INSTALL_LIBC"
         ;;
     esac
   fi
@@ -226,27 +221,41 @@ install_dir_is_writable() {
     [ -w "$dir" ]
     return $?
   fi
-  parent="$(dirname "$dir")"
-  [ -d "$parent" ] && [ -w "$parent" ]
+  parent="$dir"
+  while [ ! -d "$parent" ]; do
+    next_parent="$(dirname "$parent")"
+    [ "$next_parent" != "$parent" ] || return 1
+    parent="$next_parent"
+  done
+  [ -w "$parent" ]
 }
 
-BASE_URL="${SPIO_INSTALL_BASE_URL:-}"
-BINARY_URL="${SPIO_INSTALL_BINARY_URL:-}"
-SHA256_URL="${SPIO_INSTALL_SHA256_URL:-}"
-CHANNEL="${SPIO_INSTALL_CHANNEL:-latest}"
-RELEASE_VERSION="${SPIO_INSTALL_VERSION:-}"
-PLATFORM="${SPIO_INSTALL_PLATFORM:-}"
-INSTALL_DIR="${SPIO_INSTALL_DIR:-/usr/local/bin}"
-BINARY_NAME="${SPIO_INSTALL_BINARY_NAME:-spio}"
+BASE_URL="${PAFIO_INSTALL_BASE_URL:-}"
+BINARY_URL="${PAFIO_INSTALL_BINARY_URL:-}"
+SHA256_URL="${PAFIO_INSTALL_SHA256_URL:-}"
+CHANNEL="${PAFIO_INSTALL_CHANNEL:-latest}"
+RELEASE_VERSION="${PAFIO_INSTALL_VERSION:-}"
+PLATFORM="${PAFIO_INSTALL_PLATFORM:-}"
+INSTALL_DIR="${PAFIO_INSTALL_DIR:-/usr/local/bin}"
+BINARY_NAME="${PAFIO_INSTALL_BINARY_NAME:-pafio}"
 INSTALL_STYIO_SHIM=1
 WRITE_RELEASE_ROOT_CONFIG=1
-SPIO_HOME_DIR="${SPIO_HOME:-$HOME/.spio}"
+PAFIO_HOME_DIR="${PAFIO_HOME:-$HOME/.pafio}"
 EXPECTED_SHA256=""
 CHANNEL_EXPLICIT=0
 VERSION_EXPLICIT=0
 RELEASE_ROOT_CONFIG_URL=""
 PRINT_PLATFORM=0
 PRINT_ADAPTER=0
+INSTALL_DIR_EXPLICIT=0
+BINARY_NAME_EXPLICIT=0
+
+if [ -n "${PAFIO_INSTALL_DIR:-}" ]; then
+  INSTALL_DIR_EXPLICIT=1
+fi
+if [ -n "${PAFIO_INSTALL_BINARY_NAME:-}" ]; then
+  BINARY_NAME_EXPLICIT=1
+fi
 
 detect_platform() {
   os="$(uname_s | tr '[:upper:]' '[:lower:]')"
@@ -262,6 +271,9 @@ detect_platform() {
       ;;
     darwin)
       os="darwin"
+      ;;
+    mingw*|msys*|cygwin*|windows_nt)
+      os="windows"
       ;;
     *)
       fail "unsupported OS for automatic platform detection: $(uname_s)"
@@ -283,11 +295,22 @@ detect_platform() {
   echo "$os-$arch"
 }
 
-is_musl_platform() {
+is_windows_platform() {
   case "$1" in
-    linux-musl-*) return 0 ;;
+    windows-*) return 0 ;;
     *) return 1 ;;
   esac
+}
+
+apply_platform_defaults() {
+  if is_windows_platform "$PLATFORM"; then
+    if [ "$INSTALL_DIR_EXPLICIT" -eq 0 ]; then
+      INSTALL_DIR="${HOME:-.}/.local/bin"
+    fi
+    if [ "$BINARY_NAME_EXPLICIT" -eq 0 ] && [ "$BINARY_NAME" = "pafio" ]; then
+      BINARY_NAME="pafio.exe"
+    fi
+  fi
 }
 
 print_adapter() {
@@ -329,7 +352,7 @@ verify_sha256() {
   expected="$2"
   actual="$(sha256_value "$file")"
   if [ "$actual" != "$expected" ]; then
-    fail "sha256 mismatch for downloaded spio binary: expected $expected, got $actual"
+    fail "sha256 mismatch for downloaded pafio binary: expected $expected, got $actual"
   fi
 }
 
@@ -385,11 +408,13 @@ while [ "$#" -gt 0 ]; do
     --install-dir)
       [ "$#" -ge 2 ] || fail "--install-dir requires a value"
       INSTALL_DIR="$2"
+      INSTALL_DIR_EXPLICIT=1
       shift 2
       ;;
     --binary-name)
       [ "$#" -ge 2 ] || fail "--binary-name requires a value"
       BINARY_NAME="$2"
+      BINARY_NAME_EXPLICIT=1
       shift 2
       ;;
     --no-styio-shim)
@@ -442,30 +467,23 @@ if [ -z "$BINARY_URL" ]; then
   if [ -z "$PLATFORM" ]; then
     PLATFORM="$(detect_platform)"
   fi
+  apply_platform_defaults
   BASE_URL="${BASE_URL%/}"
 
   if [ -z "$RELEASE_VERSION" ]; then
-    CHANNEL_VERSION_URL="$BASE_URL/tools/spio/channel/$CHANNEL/$PLATFORM/version"
-    if [ "$CHANNEL_EXPLICIT" -eq 1 ]; then
-      CHANNEL_CURL_STDERR="$TMP_DIR/channel-curl.stderr"
-    else
-      CHANNEL_CURL_STDERR="/dev/null"
-    fi
+    CHANNEL_VERSION_URL="$BASE_URL/tools/pafio/channel/$CHANNEL/$PLATFORM/version"
+    CHANNEL_CURL_STDERR="$TMP_DIR/channel-curl.stderr"
     if RELEASE_VERSION="$(download_text_first_field "$CHANNEL_VERSION_URL" "$CHANNEL_CURL_STDERR")" &&
        [ -n "$RELEASE_VERSION" ]; then
       :
-    elif [ "$CHANNEL_EXPLICIT" -eq 1 ] || is_musl_platform "$PLATFORM"; then
-      if [ "$CHANNEL_CURL_STDERR" != "/dev/null" ]; then
-        cat "$CHANNEL_CURL_STDERR" >&2 || true
-      fi
-      fail "failed to resolve spio channel '$CHANNEL' for platform '$PLATFORM': $CHANNEL_VERSION_URL"
     else
-      BINARY_URL="$BASE_URL/spio"
+      cat "$CHANNEL_CURL_STDERR" >&2 || true
+      fail "failed to resolve pafio channel '$CHANNEL' for platform '$PLATFORM': $CHANNEL_VERSION_URL"
     fi
   fi
 
   if [ -n "$RELEASE_VERSION" ] && [ -z "$BINARY_URL" ]; then
-    BINARY_URL="$BASE_URL/tools/spio/releases/$RELEASE_VERSION/$PLATFORM/spio"
+    BINARY_URL="$BASE_URL/tools/pafio/releases/$RELEASE_VERSION/$PLATFORM/pafio"
     RELEASE_ROOT_CONFIG_URL="$BASE_URL"
     if [ -z "$SHA256_URL" ]; then
       SHA256_URL="$BINARY_URL.sha256"
@@ -473,9 +491,18 @@ if [ -z "$BINARY_URL" ]; then
   fi
 elif [ "$VERSION_EXPLICIT" -eq 1 ] || [ "$CHANNEL_EXPLICIT" -eq 1 ]; then
   fail "--version and --channel are only valid with --base-url release lookup"
+elif [ -n "$PLATFORM" ]; then
+  apply_platform_defaults
+else
+  case "$(uname_s | tr '[:upper:]' '[:lower:]')" in
+    mingw*|msys*|cygwin*|windows_nt)
+      PLATFORM="$(detect_platform)"
+      apply_platform_defaults
+      ;;
+  esac
 fi
 
-TMP_BIN="$TMP_DIR/spio"
+TMP_BIN="$TMP_DIR/pafio"
 TMP_STYIO_SHIM="$TMP_DIR/styio"
 curl -fsSL "$BINARY_URL" -o "$TMP_BIN"
 if [ -n "$SHA256_URL" ]; then
@@ -492,10 +519,13 @@ chmod 0755 "$TMP_BIN"
 cat >"$TMP_STYIO_SHIM" <<'EOF'
 #!/usr/bin/env sh
 set -eu
-SPIO_HOME_DIR="${SPIO_HOME:-$HOME/.spio}"
-STYIO_BIN="$SPIO_HOME_DIR/tools/styio/current/bin/styio"
+PAFIO_HOME_DIR="${PAFIO_HOME:-$HOME/.pafio}"
+STYIO_BIN="$PAFIO_HOME_DIR/tools/styio/current/bin/styio"
+if [ ! -x "$STYIO_BIN" ] && [ -x "$PAFIO_HOME_DIR/tools/styio/current/bin/styio.exe" ]; then
+  STYIO_BIN="$PAFIO_HOME_DIR/tools/styio/current/bin/styio.exe"
+fi
 if [ ! -x "$STYIO_BIN" ]; then
-  echo "styio is not installed; run: spio install styio@latest" >&2
+  echo "styio is not installed; run: pafio install styio@latest" >&2
   exit 127
 fi
 exec "$STYIO_BIN" "$@"
@@ -519,8 +549,8 @@ else
 fi
 
 if [ "$WRITE_RELEASE_ROOT_CONFIG" -eq 1 ] && [ -n "$RELEASE_ROOT_CONFIG_URL" ]; then
-  mkdir -p "$SPIO_HOME_DIR/config"
-  printf '%s\n' "$RELEASE_ROOT_CONFIG_URL" >"$SPIO_HOME_DIR/config/tool-release-root"
+  mkdir -p "$PAFIO_HOME_DIR/config"
+  printf '%s\n' "$RELEASE_ROOT_CONFIG_URL" >"$PAFIO_HOME_DIR/config/tool-release-root"
 fi
 
 if command -v "$BINARY_NAME" >/dev/null 2>&1; then
@@ -528,7 +558,7 @@ if command -v "$BINARY_NAME" >/dev/null 2>&1; then
 else
   echo "installed $INSTALL_DIR/$BINARY_NAME"
   if [ -n "$RELEASE_VERSION" ]; then
-    echo "installed spio release $RELEASE_VERSION for ${PLATFORM:-unknown-platform}"
+    echo "installed pafio release $RELEASE_VERSION for ${PLATFORM:-unknown-platform}"
   fi
   echo "add $INSTALL_DIR to PATH before running $BINARY_NAME"
 fi

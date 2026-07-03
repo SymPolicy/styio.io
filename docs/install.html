@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Install Styio</title>
-    <meta name="description" content="Install spio and the Styio compiler from the public release root.">
+    <meta name="description" content="Install pafio and the Styio compiler from the public release root.">
     <link rel="icon" href="/assets/styio-mark.svg?v=cool" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css">
     <script>(function(){var a=['cool','cool-dark'];var t=localStorage.getItem('styio-theme');if(a.indexOf(t)<0)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'cool':'cool-dark';document.documentElement.setAttribute('data-theme',t);}());</script>
@@ -18,7 +18,7 @@
         <nav class="nav" aria-label="Primary navigation">
           <a href="/docs/install.html">Install</a>
           <a href="/docs/">Docs</a>
-          <a href="https://github.com/eBioRing/styio.io">GitHub</a>
+          <a href="https://github.com/SymPolicy/styio.io">GitHub</a>
           <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color scheme">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -37,12 +37,11 @@
       <article class="doc">
         <h1>Install Styio</h1>
         <p class="doc-lede">
-          Install spio first, then let spio install the managed Styio compiler
-          from the same release root.
+          Install pafio first, then let pafio install the managed Styio compiler.
         </p>
 
         <h2 id="quickstart">Quickstart</h2>
-        <pre><code>curl -fsSL https://styio.io/tools/spio/install-spio.sh | sh -s -- --base-url https://styio.io && spio install styio@latest --prebuilt-only && styio --version</code></pre>
+        <pre><code>curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://styio.io && pafio install styio@latest && styio --version</code></pre>
 
 
         <h2 id="targets">Supported platforms</h2>
@@ -74,27 +73,39 @@
                 <span class="tag">RHEL 9+</span> <span class="tag">Rocky Linux 9+</span> <span class="tag">AlmaLinux 9+</span> <span class="tag">CentOS Stream 9+</span> <span class="tag">Fedora 38+</span><br>
                 <span class="tag">openSUSE Leap 15.5+</span>
               </td>
-              <td>arm64</td>
+              <td>arm64, x86_64</td>
               <td><span class="tag">0.0.1+</span></td>
             </tr>
             <tr>
               <td>Linux &middot; musl</td>
               <td><span class="tag">Alpine 3.18+</span></td>
-              <td>arm64</td>
+              <td>arm64, x86_64</td>
+              <td><span class="tag">0.0.1+</span></td>
+            </tr>
+            <tr>
+              <td>Windows</td>
+              <td><span class="tag">Native CLI</span></td>
+              <td>x86_64</td>
               <td><span class="tag">0.0.1+</span></td>
             </tr>
           </tbody>
         </table>
-        <p>x86_64 and Windows are not available in this alpha release.</p>
+        <p>
+          Alpha platform keys are <code>darwin-aarch64</code>,
+          <code>linux-aarch64</code>, <code>linux-x86_64</code>,
+          <code>linux-musl-aarch64</code>, <code>linux-musl-x86_64</code>, and
+          <code>windows-x86_64</code>.
+        </p>
 
         <h2 id="verify">Verify</h2>
-        <pre><code>spio --version
+        <pre><code>pafio --version
 styio --version</code></pre>
 
         <h2 id="manage">Manage installed compilers</h2>
-        <pre><code>spio tool list
-spio tool update --release-root https://styio.io
-spio tool uninstall --version 0.0.1 --channel stable</code></pre>
+        <pre><code>pafio tool status --json
+pafio tool use --version 0.0.1 --channel stable
+pafio tool pin --version 0.0.1 --channel stable
+pafio tool pin --clear</code></pre>
 
         <h2 id="troubleshooting">Troubleshooting</h2>
         <h3>Permission denied for /usr/local/bin</h3>
@@ -102,20 +113,28 @@ spio tool uninstall --version 0.0.1 --channel stable</code></pre>
           Install into a user-owned directory and add it to your shell PATH:
         </p>
         <pre><code>mkdir -p "$HOME/.local/bin"
-curl -fsSL https://styio.io/tools/spio/install-spio.sh | sh -s -- --base-url https://styio.io --install-dir "$HOME/.local/bin"</code></pre>
+curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://styio.io --install-dir "$HOME/.local/bin"</code></pre>
 
         <h3>Unsupported Linux distribution</h3>
         <p>
           The installer detects Debian/Ubuntu, Arch Linux/Manjaro, RHEL/Rocky Linux/AlmaLinux/CentOS Stream/Fedora, openSUSE, and Alpine.
           Use the adapter diagnostic to inspect the detected package family:
         </p>
-        <pre><code>curl -fsSL https://styio.io/tools/spio/install-spio.sh | sh -s -- --print-adapter</code></pre>
+        <pre><code>curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --print-adapter</code></pre>
 
-        <h3>No prebuilt Styio release found</h3>
+        <h3>Windows shell detection</h3>
+        <p>
+          The shell installer detects Git Bash, MSYS2, and Cygwin as
+          <code>windows-x86_64</code>. If a shell cannot expose that through
+          <code>uname</code>, pass the platform explicitly:
+        </p>
+        <pre><code>curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://styio.io --platform windows-x86_64</code></pre>
+
+        <h3>No prebuilt Pafio release found</h3>
         <p>
           That means the release root does not yet contain a channel pointer or
-          binary for your platform. During alpha, use a supported platform or
-          install from source without <code>--prebuilt-only</code>.
+          pafio binary for your platform. During alpha, use a supported platform
+          or build Pafio from source.
         </p>
       </article>
     </main>

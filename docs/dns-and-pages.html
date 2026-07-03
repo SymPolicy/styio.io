@@ -18,7 +18,7 @@
         <nav class="nav" aria-label="Primary navigation">
           <a href="/docs/install.html">Install</a>
           <a href="/docs/">Docs</a>
-          <a href="https://github.com/eBioRing/styio.io">GitHub</a>
+          <a href="https://github.com/SymPolicy/styio.io">GitHub</a>
           <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color scheme">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -30,7 +30,7 @@
       <nav class="side-nav" aria-label="Documentation navigation">
         <a href="#start">Startup setup</a>
         <a href="#packages">Package domain</a>
-        <a href="#migration">Migration</a>
+        <a href="#hosting">Hosting</a>
       </nav>
       <article class="doc">
         <h1>DNS and Pages</h1>
@@ -43,7 +43,7 @@
         <ul>
           <li>Configure this repository's Pages site with the custom domain <code>styio.io</code>.</li>
           <li>Use GitHub Releases as the durable source for release-root bundles.</li>
-          <li>Use the Pages workflow to publish docs plus the compatible static read root.</li>
+          <li>Use the Pages workflow to publish docs plus the static read root.</li>
         </ul>
         <p>
           For GitHub Actions based Pages deployments, the custom domain is a
@@ -70,7 +70,7 @@
             <tr><td><code>AAAA</code></td><td><code>@</code></td><td><code>2606:50c0:8001::153</code></td></tr>
             <tr><td><code>AAAA</code></td><td><code>@</code></td><td><code>2606:50c0:8002::153</code></td></tr>
             <tr><td><code>AAAA</code></td><td><code>@</code></td><td><code>2606:50c0:8003::153</code></td></tr>
-            <tr><td><code>CNAME</code></td><td><code>www</code></td><td><code>eBioRing.github.io</code></td></tr>
+            <tr><td><code>CNAME</code></td><td><code>www</code></td><td><code>SymPolicy.github.io</code></td></tr>
           </tbody>
         </table>
         <p>
@@ -86,14 +86,13 @@
           <code>packages.styio.io</code> subdomain is introduced, point it at
           an equivalent static read plane and keep the same path contract.
         </p>
-        <pre><code>curl -fsSL https://packages.styio.io/tools/spio/install-spio.sh | sh -s -- --base-url https://packages.styio.io</code></pre>
+        <pre><code>curl -fsSL https://packages.styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://packages.styio.io</code></pre>
 
-        <h2 id="migration">Migration path</h2>
+        <h2 id="hosting">Future hosting</h2>
         <p>
-          The static layout keeps the migration surface small. A future CDN,
-          object store, or self-hosted platform service only needs to serve the
-          same <code>tools/</code> paths or provide a client-compatible redirect
-          layer after spio learns that protocol.
+          A future CDN, object store, or self-hosted platform service must serve
+          the same <code>tools/</code> paths as the canonical release-root
+          contract.
         </p>
       </article>
     </main>

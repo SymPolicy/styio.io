@@ -9,7 +9,7 @@ fail() {
 root="${1:-}"
 [ -n "$root" ] || fail "usage: validate-release-root.sh <site-or-release-root>"
 [ -d "$root" ] || fail "root is not a directory: $root"
-[ -f "$root/tools/spio/install-spio.sh" ] || fail "missing tools/spio/install-spio.sh"
+[ -f "$root/tools/pafio/install-pafio.sh" ] || fail "missing tools/pafio/install-pafio.sh"
 
 safe_segment() {
   case "$1" in

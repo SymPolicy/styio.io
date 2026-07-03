@@ -13,8 +13,8 @@
 
   var shellCommands = [
     "cat", "cd", "chmod", "curl", "echo", "env", "export", "gh", "grep", "install",
-    "mkdir", "python", "python3", "rg", "scripts/validate-release-root.sh", "sh",
-    "spio", "styio", "tar", "test"
+    "mkdir", "printf", "python", "python3", "rg", "scripts/validate-release-root.sh",
+    "sha256sum", "sh", "pafio", "styio", "tar", "test"
   ];
   var shellKeywords = [
     "case", "do", "done", "elif", "else", "esac", "false", "fi", "for", "function",
@@ -74,7 +74,7 @@
   }
 
   function detectCodeKind(text) {
-    if (/(^|\n)\s*(?:curl|spio|styio|gh|python3|mkdir|tar|release_root=|scripts\/validate-release-root\.sh)\b/.test(text) || /\s--[A-Za-z]/.test(text)) {
+    if (/(^|\n)\s*(?:curl|pafio|styio|gh|python3|mkdir|printf|sha256sum|tar|release_root=|scripts\/validate-release-root\.sh)\b/.test(text) || /\s--[A-Za-z]/.test(text)) {
       return "shell";
     }
     if (/(^|\n)\s*tools\//.test(text)) {

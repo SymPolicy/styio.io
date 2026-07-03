@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Release Contract - Styio</title>
-    <meta name="description" content="Static release-root contract used by spio and Styio tool installs.">
+    <meta name="description" content="Static release-root contract used by pafio and Styio tool installs.">
     <link rel="icon" href="/assets/styio-mark.svg?v=cool" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css">
     <script>(function(){var a=['cool','cool-dark'];var t=localStorage.getItem('styio-theme');if(a.indexOf(t)<0)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'cool':'cool-dark';document.documentElement.setAttribute('data-theme',t);}());</script>
@@ -18,7 +18,7 @@
         <nav class="nav" aria-label="Primary navigation">
           <a href="/docs/install.html">Install</a>
           <a href="/docs/">Docs</a>
-          <a href="https://github.com/eBioRing/styio.io">GitHub</a>
+          <a href="https://github.com/SymPolicy/styio.io">GitHub</a>
           <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color scheme">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -29,7 +29,7 @@
     <main class="wrap doc-layout">
       <nav class="side-nav" aria-label="Documentation navigation">
         <a href="#metadata">Metadata</a>
-        <a href="#spio">spio</a>
+        <a href="#pafio">pafio</a>
         <a href="#styio">styio</a>
         <a href="#targets">Targets</a>
         <a href="#validation">Validation</a>
@@ -38,7 +38,7 @@
         <h1>Release contract</h1>
         <p class="doc-lede">
           This is the static file layout that the current shell installer and
-          spio prebuilt tool installer consume.
+          pafio prebuilt tool installer consume.
         </p>
 
         <h2 id="metadata">Release-root metadata</h2>
@@ -52,12 +52,12 @@ tools/...</code></pre>
           example <code>release-root-2026.05.09.1</code>.
         </p>
 
-        <h2 id="spio">spio installer paths</h2>
-        <pre><code>tools/spio/install-spio.sh
-tools/spio/channel/latest/&lt;platform&gt;/version
-tools/spio/releases/&lt;version&gt;/&lt;platform&gt;/spio
-tools/spio/releases/&lt;version&gt;/&lt;platform&gt;/spio.sha256
-tools/spio/latest.json</code></pre>
+        <h2 id="pafio">pafio installer paths</h2>
+        <pre><code>tools/pafio/install-pafio.sh
+tools/pafio/channel/latest/&lt;platform&gt;/version
+tools/pafio/releases/&lt;version&gt;/&lt;platform&gt;/pafio
+tools/pafio/releases/&lt;version&gt;/&lt;platform&gt;/pafio.sha256
+tools/pafio/latest.json</code></pre>
 
         <h2 id="styio">Styio compiler paths</h2>
         <pre><code>tools/&lt;release-target&gt;/channel/stable/&lt;platform&gt;/version
@@ -78,7 +78,7 @@ tools/&lt;release-target&gt;/latest.json</code></pre>
             <tr>
               <td><code>styio-linux</code></td>
               <td>Linux CLI, including glibc and musl platform keys.</td>
-              <td>arm64 alpha</td>
+              <td>arm64 and x86_64 alpha</td>
             </tr>
             <tr>
               <td><code>styio-macos-cli</code></td>
@@ -92,8 +92,8 @@ tools/&lt;release-target&gt;/latest.json</code></pre>
             </tr>
             <tr>
               <td><code>styio-windows-cli</code></td>
-              <td>Future Windows command-line compiler.</td>
-              <td>reserved</td>
+              <td>Windows command-line compiler.</td>
+              <td>x86_64 alpha</td>
             </tr>
             <tr>
               <td><code>styio-windows-desktop-gui</code></td>
@@ -117,7 +117,7 @@ tools/&lt;release-target&gt;/latest.json</code></pre>
         <ul>
           <li>Every channel pointer is a text file whose first field is a safe version segment.</li>
           <li>Every binary has a sibling <code>.sha256</code> text file.</li>
-          <li>Platform keys use <code>darwin-aarch64</code>, <code>linux-aarch64</code>, or <code>linux-musl-aarch64</code> for the first alpha.</li>
+          <li>Alpha CLI platform keys use <code>darwin-aarch64</code>, <code>linux-aarch64</code>, <code>linux-x86_64</code>, <code>linux-musl-aarch64</code>, <code>linux-musl-x86_64</code>, or <code>windows-x86_64</code>.</li>
           <li>Release-root bundles are extracted into the Pages artifact, not committed to Git.</li>
           <li>New release-root bundles include <code>release-root.json</code> metadata.</li>
         </ul>

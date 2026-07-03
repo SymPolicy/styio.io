@@ -19,7 +19,7 @@
           <a href="/docs/install.html">Install</a>
           <a href="/docs/">Docs</a>
           <a href="/docs/release-hosting.html">Release Hosting</a>
-          <a href="https://github.com/eBioRing/styio.io">GitHub</a>
+          <a href="https://github.com/SymPolicy/styio.io">GitHub</a>
           <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color scheme">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -40,8 +40,8 @@
         <h1>Release hosting</h1>
         <p class="doc-lede">
           The startup flow uses GitHub Releases for versioned storage and
-          GitHub Pages for a stable static read plane compatible with current
-          spio clients.
+          GitHub Pages for the stable static read plane consumed by pafio
+          clients.
         </p>
 
         <h2 id="model">Model</h2>
@@ -55,12 +55,12 @@
           <div class="step">
             <small>Build</small>
             <strong>CLI binaries</strong>
-            <span>spio and styio are built for each supported platform.</span>
+            <span>pafio and styio are built for each supported platform.</span>
           </div>
           <div class="step">
             <small>Stage</small>
             <strong>Static root</strong>
-            <span>styio-platform writes tools/, channel pointers, and sha256 files.</span>
+            <span>The staged tools/ tree contains installers, binaries, channel pointers, and sha256 files.</span>
           </div>
           <div class="step">
             <small>Store</small>
@@ -85,9 +85,9 @@
           </thead>
           <tbody>
             <tr>
-              <td>spio CLI</td>
-              <td><code>spio-v&lt;semver&gt;</code></td>
-              <td><code>spio-v0.1.0-alpha</code></td>
+              <td>pafio CLI</td>
+              <td><code>pafio-v&lt;semver&gt;</code></td>
+              <td><code>pafio-v0.1.0-alpha</code></td>
             </tr>
             <tr>
               <td>Styio compiler</td>
@@ -104,29 +104,38 @@
 
         <h2 id="bundle">Create a release-root bundle</h2>
         <p>
-          Use <code>styio-platform</code>'s publisher to place each binary into
-          a temporary registry root. Example:
+          Stage each binary into the release-root contract, then package the
+          root. Example:
+        </p>
+        <p>
+          Alpha CLI release platform keys are <code>darwin-aarch64</code>,
+          <code>linux-aarch64</code>, <code>linux-x86_64</code>,
+          <code>linux-musl-aarch64</code>, <code>linux-musl-x86_64</code>, and
+          <code>windows-x86_64</code>. Linux binaries publish under
+          <code>styio-linux</code>, macOS CLI binaries under
+          <code>styio-macos-cli</code>, and Windows CLI binaries under
+          <code>styio-windows-cli</code>. Publish <code>pafio</code> for each
+          platform key before publishing the matching Styio compiler; Windows
+          source binaries may be named <code>pafio.exe</code> or
+          <code>styio.exe</code>, but release-root leaf names stay
+          <code>pafio</code> and <code>styio</code>.
         </p>
         <pre><code>release_root="$(mktemp -d)"
+pafio_version="0.1.0-alpha"
+styio_version="0.0.1"
 
-python3 /path/to/styio-platform/scripts/publish-spio-tool-release.py \
-  --registry-root "$release_root" \
-  --tool spio \
-  --binary /path/to/spio \
-  --binary-name spio \
-  --version 0.1.0-alpha \
-  --platform darwin-aarch64 \
-  --install-script /path/to/styio-spio/scripts/install-spio.sh
+install -d "$release_root/tools/pafio/channel/latest/darwin-aarch64"
+install -d "$release_root/tools/pafio/releases/$pafio_version/darwin-aarch64"
+install -m 0755 tools/pafio/install-pafio.sh "$release_root/tools/pafio/install-pafio.sh"
+install -m 0755 /path/to/pafio "$release_root/tools/pafio/releases/$pafio_version/darwin-aarch64/pafio"
+sha256sum "$release_root/tools/pafio/releases/$pafio_version/darwin-aarch64/pafio" &gt; "$release_root/tools/pafio/releases/$pafio_version/darwin-aarch64/pafio.sha256"
+printf '%s\n' "$pafio_version" &gt; "$release_root/tools/pafio/channel/latest/darwin-aarch64/version"
 
-python3 /path/to/styio-platform/scripts/publish-spio-tool-release.py \
-  --registry-root "$release_root" \
-  --tool styio \
-  --binary /path/to/styio \
-  --binary-name styio \
-  --version 0.0.1 \
-  --platform darwin-aarch64 \
-  --release-target styio-macos-cli \
-  --channel stable
+install -d "$release_root/tools/styio-macos-cli/channel/stable/darwin-aarch64"
+install -d "$release_root/tools/styio-macos-cli/releases/$styio_version/darwin-aarch64"
+install -m 0755 /path/to/styio "$release_root/tools/styio-macos-cli/releases/$styio_version/darwin-aarch64/styio"
+sha256sum "$release_root/tools/styio-macos-cli/releases/$styio_version/darwin-aarch64/styio" &gt; "$release_root/tools/styio-macos-cli/releases/$styio_version/darwin-aarch64/styio.sha256"
+printf '%s\n' "$styio_version" &gt; "$release_root/tools/styio-macos-cli/channel/stable/darwin-aarch64/version"
 
 scripts/package-release-root.sh \
   --root "$release_root" \
@@ -139,7 +148,7 @@ scripts/package-release-root.sh \
           or updates the GitHub Release asset, and can trigger a Pages deploy.
         </p>
         <pre><code>gh workflow run release-root.yml \
-  --repo eBioRing/styio.io \
+  --repo SymPolicy/styio.io \
   -f release_root_id=release-root-2026.05.09.1 \
   -f bundle_url=https://example.com/styio-release-root-2026.05.09.1.tar.gz \
   -f release_asset_name=styio-release-root-2026.05.09.1.tar.gz \
@@ -151,8 +160,8 @@ scripts/package-release-root.sh \
           already exists:
         </p>
         <pre><code>gh workflow run pages.yml \
-  --repo eBioRing/styio.io \
-  -f release_bundle_repo=eBioRing/styio.io \
+  --repo SymPolicy/styio.io \
+  -f release_bundle_repo=SymPolicy/styio.io \
   -f release_bundle_tag=release-root-2026.05.09.1 \
   -f release_bundle_asset=styio-release-root-2026.05.09.1.tar.gz</code></pre>
 
