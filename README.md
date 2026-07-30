@@ -1,14 +1,16 @@
 # styio.io
 
-Static website, documentation, and release-root publishing workflow for Styio.
+Static website, documentation, and release-root publishing workflow for the
+Styio ecosystem.
 
 This repository is intentionally small:
 
-- `styio.io` serves the public website and install documentation.
-- `tools/spio/install-spio.sh` is the stable installer entrypoint.
+- `styio.io` serves the public website and project-workflow documentation.
+- Pafio is the project entry; Styio is system-provided.
+- `tools/pafio/install-pafio.sh` installs the Pafio CLI only.
 - GitHub Releases store release-root bundles that contain prebuilt binaries.
 - GitHub Pages publishes the site and, when a release-root bundle is supplied,
-  exposes the static paths expected by current `spio` clients.
+  exposes the static paths expected by Pafio installers.
 
 The repository must not track large binary artifacts. Prebuilt CLI binaries
 belong in GitHub Release assets or generated Pages deployment artifacts.
@@ -27,7 +29,9 @@ Then open `http://127.0.0.1:8080`.
 Use this after the Pages site has been configured for `styio.io`:
 
 ```sh
-curl -fsSL https://styio.io/tools/spio/install-spio.sh | sh -s -- --base-url https://styio.io && spio install styio@latest --prebuilt-only && styio --version
+curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://styio.io
+pafio --version
+styio --version
 ```
 
 If `packages.styio.io` is later pointed at the same Pages deployment or a CDN
@@ -39,22 +43,20 @@ file is only a visible domain marker for maintainers.
 
 ## Release-Root Bundle Flow
 
-Current `spio` clients expect a static read root with paths such as:
+Pafio installers expect a static read root with paths such as:
 
 ```text
-tools/spio/channel/latest/<platform>/version
-tools/spio/releases/<version>/<platform>/spio
-tools/styio-linux/channel/stable/<platform>/version
-tools/styio-linux/releases/<version>/<platform>/styio
-tools/styio-macos-cli/channel/stable/<platform>/version
-tools/styio-macos-cli/releases/<version>/<platform>/styio
+tools/pafio/channel/latest/<platform>/version
+tools/pafio/releases/<version>/<platform>/pafio
 ```
 
 Use separate names for the three release layers:
 
-- CLI package tags use `spio-v<semver>`.
-- Compiler package tags use `styio-v<semver>`.
+- Pafio CLI package tags use `pafio-v<semver>`.
 - Static deployment snapshots use `release-root-YYYY.MM.DD.N`.
+
+Styio compiler distribution is an external system prerequisite. This repository
+does not publish or manage Homebrew, apt, winget, or compiler binaries.
 
 Build the `tools/` tree with `styio-platform`'s release publisher, package it
 with metadata, publish it as a GitHub Release asset, then deploy Pages from that

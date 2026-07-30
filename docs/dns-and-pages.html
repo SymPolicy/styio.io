@@ -86,14 +86,14 @@
           <code>packages.styio.io</code> subdomain is introduced, point it at
           an equivalent static read plane and keep the same path contract.
         </p>
-        <pre><code>curl -fsSL https://packages.styio.io/tools/spio/install-spio.sh | sh -s -- --base-url https://packages.styio.io</code></pre>
+        <pre><code>curl -fsSL https://packages.styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://packages.styio.io</code></pre>
 
         <h2 id="migration">Migration path</h2>
         <p>
           The static layout keeps the migration surface small. A future CDN,
           object store, or self-hosted platform service only needs to serve the
-          same <code>tools/</code> paths or provide a client-compatible redirect
-          layer after spio learns that protocol.
+          same <code>tools/</code> paths or provide a Pafio-compatible redirect
+          layer.
         </p>
       </article>
     </main>

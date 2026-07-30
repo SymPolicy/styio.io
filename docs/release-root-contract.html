@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Release Contract - Styio</title>
-    <meta name="description" content="Static release-root contract used by spio and Styio tool installs.">
+    <meta name="description" content="Static release-root contract used by the Pafio installer.">
     <link rel="icon" href="/assets/styio-mark.svg?v=cool" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css">
     <script>(function(){var a=['cool','cool-dark'];var t=localStorage.getItem('styio-theme');if(a.indexOf(t)<0)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'cool':'cool-dark';document.documentElement.setAttribute('data-theme',t);}());</script>
@@ -29,16 +29,14 @@
     <main class="wrap doc-layout">
       <nav class="side-nav" aria-label="Documentation navigation">
         <a href="#metadata">Metadata</a>
-        <a href="#spio">spio</a>
-        <a href="#styio">styio</a>
-        <a href="#targets">Targets</a>
+        <a href="#pafio">Pafio</a>
+        <a href="#boundary">Boundary</a>
         <a href="#validation">Validation</a>
       </nav>
       <article class="doc">
         <h1>Release contract</h1>
         <p class="doc-lede">
-          This is the static file layout that the current shell installer and
-          spio prebuilt tool installer consume.
+          This is the static file layout consumed by the Pafio installer.
         </p>
 
         <h2 id="metadata">Release-root metadata</h2>
@@ -52,72 +50,25 @@ tools/...</code></pre>
           example <code>release-root-2026.05.09.1</code>.
         </p>
 
-        <h2 id="spio">spio installer paths</h2>
-        <pre><code>tools/spio/install-spio.sh
-tools/spio/channel/latest/&lt;platform&gt;/version
-tools/spio/releases/&lt;version&gt;/&lt;platform&gt;/spio
-tools/spio/releases/&lt;version&gt;/&lt;platform&gt;/spio.sha256
-tools/spio/latest.json</code></pre>
+        <h2 id="pafio">Pafio installer paths</h2>
+        <pre><code>tools/pafio/install-pafio.sh
+tools/pafio/channel/latest/&lt;platform&gt;/version
+tools/pafio/releases/&lt;version&gt;/&lt;platform&gt;/pafio
+tools/pafio/releases/&lt;version&gt;/&lt;platform&gt;/pafio.sha256
+tools/pafio/latest.json</code></pre>
 
-        <h2 id="styio">Styio compiler paths</h2>
-        <pre><code>tools/&lt;release-target&gt;/channel/stable/&lt;platform&gt;/version
-tools/&lt;release-target&gt;/releases/&lt;version&gt;/&lt;platform&gt;/styio
-tools/&lt;release-target&gt;/releases/&lt;version&gt;/&lt;platform&gt;/styio.sha256
-tools/&lt;release-target&gt;/latest.json</code></pre>
-
-        <h2 id="targets">Release targets</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Target</th>
-              <th>Purpose</th>
-              <th>Initial status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>styio-linux</code></td>
-              <td>Linux CLI, including glibc and musl platform keys.</td>
-              <td>arm64 alpha</td>
-            </tr>
-            <tr>
-              <td><code>styio-macos-cli</code></td>
-              <td>macOS command-line compiler.</td>
-              <td>Apple Silicon alpha</td>
-            </tr>
-            <tr>
-              <td><code>styio-macos-desktop-gui</code></td>
-              <td>Future macOS desktop application.</td>
-              <td>reserved</td>
-            </tr>
-            <tr>
-              <td><code>styio-windows-cli</code></td>
-              <td>Future Windows command-line compiler.</td>
-              <td>reserved</td>
-            </tr>
-            <tr>
-              <td><code>styio-windows-desktop-gui</code></td>
-              <td>Future Windows desktop application.</td>
-              <td>reserved</td>
-            </tr>
-            <tr>
-              <td><code>styio-ios</code></td>
-              <td>Future iOS client package.</td>
-              <td>reserved</td>
-            </tr>
-            <tr>
-              <td><code>styio-android</code></td>
-              <td>Future Android client package.</td>
-              <td>reserved</td>
-            </tr>
-          </tbody>
-        </table>
+        <h2 id="boundary">Compiler distribution boundary</h2>
+        <p>
+          Styio is system-provided. Compiler binaries, channels, pins, and
+          package-manager metadata are outside this release root and outside
+          Pafio ownership.
+        </p>
 
         <h2 id="validation">Validation rules</h2>
         <ul>
           <li>Every channel pointer is a text file whose first field is a safe version segment.</li>
           <li>Every binary has a sibling <code>.sha256</code> text file.</li>
-          <li>Platform keys use <code>darwin-aarch64</code>, <code>linux-aarch64</code>, or <code>linux-musl-aarch64</code> for the first alpha.</li>
+          <li>Platform keys are safe, immutable path segments such as <code>darwin-aarch64</code>.</li>
           <li>Release-root bundles are extracted into the Pages artifact, not committed to Git.</li>
           <li>New release-root bundles include <code>release-root.json</code> metadata.</li>
         </ul>

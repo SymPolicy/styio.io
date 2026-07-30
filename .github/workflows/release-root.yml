@@ -73,7 +73,7 @@ jobs:
           Styio release-root snapshot: ${{ inputs.release_root_id }}
 
           This release stores the static tools/ tree consumed by styio.io Pages
-          and by spio installers. The bundle was validated before publishing.
+          and by Pafio installers. The bundle was validated before publishing.
           EOF
 
       - name: Publish GitHub Release

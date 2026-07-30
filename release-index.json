@@ -10,24 +10,13 @@
   },
   "tools": [
     {
-      "name": "spio",
-      "latest": "https://styio.io/tools/spio/latest.json",
+      "name": "pafio",
+      "latest": "https://styio.io/tools/pafio/latest.json",
       "current_version": "0.1.0-alpha"
-    },
-    {
-      "name": "styio-linux",
-      "latest": "https://styio.io/tools/styio-linux/latest.json",
-      "current_version": "0.0.1"
-    },
-    {
-      "name": "styio-macos-cli",
-      "latest": "https://styio.io/tools/styio-macos-cli/latest.json",
-      "current_version": "0.0.1"
     }
   ],
   "naming": {
-    "spio_cli": "spio-v<semver>",
-    "styio_compiler": "styio-v<semver>",
+    "pafio_cli": "pafio-v<semver>",
     "release_root_snapshot": "release-root-YYYY.MM.DD.N"
   }
 }

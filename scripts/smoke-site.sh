@@ -26,7 +26,7 @@ for path in \
   assets/copy-code.js \
   assets/styio-logo.svg \
   release-index.json \
-  tools/spio/install-spio.sh
+  tools/pafio/install-pafio.sh
 do
   [ -f "$tmp_dir/site/$path" ] || fail "missing built site file: $path"
 done

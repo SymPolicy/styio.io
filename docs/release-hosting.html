@@ -40,8 +40,8 @@
         <h1>Release hosting</h1>
         <p class="doc-lede">
           The startup flow uses GitHub Releases for versioned storage and
-          GitHub Pages for a stable static read plane compatible with current
-          spio clients.
+          GitHub Pages for a stable static read plane compatible with the
+          Pafio installer.
         </p>
 
         <h2 id="model">Model</h2>
@@ -55,12 +55,12 @@
           <div class="step">
             <small>Build</small>
             <strong>CLI binaries</strong>
-            <span>spio and styio are built for each supported platform.</span>
+            <span>Pafio is built for each supported platform.</span>
           </div>
           <div class="step">
             <small>Stage</small>
             <strong>Static root</strong>
-            <span>styio-platform writes tools/, channel pointers, and sha256 files.</span>
+            <span>The release pipeline writes tools/, channel pointers, and sha256 files.</span>
           </div>
           <div class="step">
             <small>Store</small>
@@ -85,14 +85,9 @@
           </thead>
           <tbody>
             <tr>
-              <td>spio CLI</td>
-              <td><code>spio-v&lt;semver&gt;</code></td>
-              <td><code>spio-v0.1.0-alpha</code></td>
-            </tr>
-            <tr>
-              <td>Styio compiler</td>
-              <td><code>styio-v&lt;semver&gt;</code></td>
-              <td><code>styio-v0.0.1</code></td>
+              <td>Pafio CLI</td>
+              <td><code>pafio-v&lt;semver&gt;</code></td>
+              <td><code>pafio-v0.1.0-alpha</code></td>
             </tr>
             <tr>
               <td>Static release root</td>
@@ -104,29 +99,21 @@
 
         <h2 id="bundle">Create a release-root bundle</h2>
         <p>
-          Use <code>styio-platform</code>'s publisher to place each binary into
-          a temporary registry root. Example:
+          Stage the Pafio binary, checksum, channel pointer, and installer in a
+          temporary release root. Styio compiler artifacts do not belong in
+          this bundle. Example:
         </p>
         <pre><code>release_root="$(mktemp -d)"
-
-python3 /path/to/styio-platform/scripts/publish-spio-tool-release.py \
-  --registry-root "$release_root" \
-  --tool spio \
-  --binary /path/to/spio \
-  --binary-name spio \
-  --version 0.1.0-alpha \
-  --platform darwin-aarch64 \
-  --install-script /path/to/styio-spio/scripts/install-spio.sh
-
-python3 /path/to/styio-platform/scripts/publish-spio-tool-release.py \
-  --registry-root "$release_root" \
-  --tool styio \
-  --binary /path/to/styio \
-  --binary-name styio \
-  --version 0.0.1 \
-  --platform darwin-aarch64 \
-  --release-target styio-macos-cli \
-  --channel stable
+version="0.1.0-alpha"
+platform="darwin-aarch64"
+mkdir -p "$release_root/tools/pafio/releases/$version/$platform"
+mkdir -p "$release_root/tools/pafio/channel/latest/$platform"
+cp /path/to/pafio "$release_root/tools/pafio/releases/$version/$platform/pafio"
+shasum -a 256 "$release_root/tools/pafio/releases/$version/$platform/pafio" \
+  &gt; "$release_root/tools/pafio/releases/$version/$platform/pafio.sha256"
+printf '%s\n' "$version" \
+  &gt; "$release_root/tools/pafio/channel/latest/$platform/version"
+cp tools/pafio/install-pafio.sh "$release_root/tools/pafio/install-pafio.sh"
 
 scripts/package-release-root.sh \
   --root "$release_root" \
@@ -162,6 +149,7 @@ scripts/package-release-root.sh \
           <li>Release-root bundles are immutable once announced publicly.</li>
           <li>Every binary must have a matching <code>.sha256</code> file.</li>
           <li>Channel pointers must be plain text version files.</li>
+          <li>Styio compiler distribution remains external to this site and to Pafio.</li>
         </ul>
       </article>
     </main>

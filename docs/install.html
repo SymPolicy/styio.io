@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Install Styio</title>
-    <meta name="description" content="Install spio and the Styio compiler from the public release root.">
+    <title>Set up Pafio and Styio</title>
+    <meta name="description" content="Install Pafio and connect it to a system-provided Styio compiler.">
     <link rel="icon" href="/assets/styio-mark.svg?v=cool" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css">
     <script>(function(){var a=['cool','cool-dark'];var t=localStorage.getItem('styio-theme');if(a.indexOf(t)<0)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'cool':'cool-dark';document.documentElement.setAttribute('data-theme',t);}());</script>
@@ -29,72 +29,58 @@
     <main class="wrap doc-layout">
       <nav class="side-nav" aria-label="Documentation navigation">
         <a href="#quickstart">Quickstart</a>
-        <a href="#targets">Targets</a>
+        <a href="#compiler">System Styio</a>
+        <a href="#project">Project</a>
         <a href="#verify">Verify</a>
-        <a href="#manage">Manage</a>
         <a href="#troubleshooting">Troubleshooting</a>
       </nav>
       <article class="doc">
-        <h1>Install Styio</h1>
+        <h1>Set up Pafio and Styio</h1>
         <p class="doc-lede">
-          Install spio first, then let spio install the managed Styio compiler
-          from the same release root.
+          Pafio is the Cargo/CMake-style project entry. Styio is the
+          system-provided compiler. Pafio never installs, updates, switches, or
+          caches the compiler.
         </p>
 
         <h2 id="quickstart">Quickstart</h2>
-        <pre><code>curl -fsSL https://styio.io/tools/spio/install-spio.sh | sh -s -- --base-url https://styio.io && spio install styio@latest --prebuilt-only && styio --version</code></pre>
-
-
-        <h2 id="targets">Supported platforms</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Platform</th>
-              <th>OS / Distribution</th>
-              <th>Arch</th>
-              <th>Styio</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>macOS</td>
-              <td>
-                <span class="tag">13 Ventura</span>
-                <span class="tag">14 Sonoma</span>
-                <span class="tag">15 Sequoia</span>
-              </td>
-              <td>Apple Silicon</td>
-              <td><span class="tag">0.0.1+</span></td>
-            </tr>
-            <tr>
-              <td>Linux &middot; glibc</td>
-              <td>
-                <span class="tag">Debian 11+</span> <span class="tag">Ubuntu 22.04+</span><br>
-                <span class="tag">Arch Linux</span> <span class="tag">Manjaro</span><br>
-                <span class="tag">RHEL 9+</span> <span class="tag">Rocky Linux 9+</span> <span class="tag">AlmaLinux 9+</span> <span class="tag">CentOS Stream 9+</span> <span class="tag">Fedora 38+</span><br>
-                <span class="tag">openSUSE Leap 15.5+</span>
-              </td>
-              <td>arm64</td>
-              <td><span class="tag">0.0.1+</span></td>
-            </tr>
-            <tr>
-              <td>Linux &middot; musl</td>
-              <td><span class="tag">Alpine 3.18+</span></td>
-              <td>arm64</td>
-              <td><span class="tag">0.0.1+</span></td>
-            </tr>
-          </tbody>
-        </table>
-        <p>x86_64 and Windows are not available in this alpha release.</p>
-
-        <h2 id="verify">Verify</h2>
-        <pre><code>spio --version
+        <pre><code>curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://styio.io
+pafio --version
 styio --version</code></pre>
 
-        <h2 id="manage">Manage installed compilers</h2>
-        <pre><code>spio tool list
-spio tool update --release-root https://styio.io
-spio tool uninstall --version 0.0.1 --channel stable</code></pre>
+        <h2 id="compiler">System Styio prerequisite</h2>
+        <p>
+          Install Styio through the system distribution available for your
+          environment, then make <code>styio</code> available on
+          <code>PATH</code>. This release does not create Homebrew, apt, or
+          winget channels and does not publish a compiler installer here.
+        </p>
+        <p>
+          Pafio resolves the compiler in this fixed order:
+          <code>--styio-bin</code>, <code>PAFIO_STYIO_BIN</code>, then
+          <code>styio</code> on <code>PATH</code>.
+        </p>
+
+        <h2 id="project">Create and run a project</h2>
+        <pre><code>pafio new hello
+cd hello
+pafio build
+pafio run
+pafio test</code></pre>
+        <p>
+          The first workflow synchronizes dependencies and writes
+          <code>pafio.lock</code>. Use <code>--locked</code>,
+          <code>--offline</code>, or <code>--frozen</code> for reproducible
+          execution.
+        </p>
+
+        <h2 id="verify">Verify</h2>
+        <pre><code>pafio doctor
+pafio metadata --json
+pafio --json check</code></pre>
+        <p>
+          <code>doctor</code> diagnoses project, cache, registry trust, and
+          external Styio capability. It does not repair or install anything.
+        </p>
 
         <h2 id="troubleshooting">Troubleshooting</h2>
         <h3>Permission denied for /usr/local/bin</h3>
@@ -102,20 +88,20 @@ spio tool uninstall --version 0.0.1 --channel stable</code></pre>
           Install into a user-owned directory and add it to your shell PATH:
         </p>
         <pre><code>mkdir -p "$HOME/.local/bin"
-curl -fsSL https://styio.io/tools/spio/install-spio.sh | sh -s -- --base-url https://styio.io --install-dir "$HOME/.local/bin"</code></pre>
+curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --base-url https://styio.io --install-dir "$HOME/.local/bin"</code></pre>
 
-        <h3>Unsupported Linux distribution</h3>
+        <h3>Inspect installer platform detection</h3>
         <p>
-          The installer detects Debian/Ubuntu, Arch Linux/Manjaro, RHEL/Rocky Linux/AlmaLinux/CentOS Stream/Fedora, openSUSE, and Alpine.
-          Use the adapter diagnostic to inspect the detected package family:
+          Print the release platform key without installing:
         </p>
-        <pre><code>curl -fsSL https://styio.io/tools/spio/install-spio.sh | sh -s -- --print-adapter</code></pre>
+        <pre><code>curl -fsSL https://styio.io/tools/pafio/install-pafio.sh | sh -s -- --print-platform</code></pre>
 
-        <h3>No prebuilt Styio release found</h3>
+        <h3>Styio is missing or incompatible</h3>
         <p>
-          That means the release root does not yet contain a channel pointer or
-          binary for your platform. During alpha, use a supported platform or
-          install from source without <code>--prebuilt-only</code>.
+          Install a compatible system compiler or point Pafio at an existing
+          executable with <code>--styio-bin</code> or
+          <code>PAFIO_STYIO_BIN</code>. Pafio fails closed when the required
+          machine contract is unavailable.
         </p>
       </article>
     </main>
