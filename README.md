@@ -15,6 +15,10 @@ belong in GitHub Release assets or generated Pages deployment artifacts.
 
 ## Local Preview
 
+The build uses Git and Python 3. Published HTML and CSS reference presentation
+assets with the current commit ID in their URL, so returning visitors cannot
+reuse a previous release's cached styles, scripts, fonts, or artwork.
+
 ```sh
 scripts/build-site.sh
 python3 -m http.server 8080 --directory _site

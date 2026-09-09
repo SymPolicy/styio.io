@@ -43,6 +43,26 @@ copy_path "robots.txt"
 copy_path "styles.css"
 copy_path "tools"
 
+# Keep each page and its presentation assets on the same release in browser/CDN caches.
+asset_version="$(git -C "$repo_root" rev-parse --short=12 HEAD)"
+python3 - "$site_dir" "$asset_version" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+root = Path(sys.argv[1])
+version = sys.argv[2]
+asset_url = re.compile(r'''(["'])(/(?:styles\.css|assets/[^"'\s?#]+))\1''')
+
+def version_url(match):
+    quote, path = match.groups()
+    return f"{quote}{path}?v={version}{quote}"
+
+for path in [*root.rglob("*.html"), *root.rglob("*.css")]:
+    text = path.read_text()
+    path.write_text(asset_url.sub(version_url, text))
+PY
+
 if [ -n "$bundle" ]; then
   case "$bundle" in
     /*) ;;

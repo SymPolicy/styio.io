@@ -37,6 +37,39 @@ do
   [ -f "$tmp_dir/site/$path" ] || fail "missing built site file: $path"
 done
 
+python3 - "$tmp_dir/site" <<'PY'
+from html.parser import HTMLParser
+from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
+import re
+import sys
+
+root = Path(sys.argv[1])
+versions = set()
+
+def check_asset(url):
+    parsed = urlsplit(url)
+    if parsed.path != "/styles.css" and not parsed.path.startswith("/assets/"):
+        return
+    version = parse_qs(parsed.query).get("v", [])
+    assert len(version) == 1 and version[0], f"unversioned built asset: {url}"
+    assert (root / parsed.path.lstrip("/")).is_file(), f"missing built asset: {url}"
+    versions.add(version[0])
+
+class AssetLinks(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        for name, value in attrs:
+            if name in ("href", "src") and value:
+                check_asset(value)
+
+for path in root.rglob("*.html"):
+    AssetLinks().feed(path.read_text())
+for path in root.rglob("*.css"):
+    for url in re.findall(r"url\(([^)]+)\)", path.read_text()):
+        check_asset(url.strip("\"' "))
+assert len(versions) == 1, "built pages and CSS must reference one asset version"
+PY
+
 for html in $(find "$repo_root" -name "*.html" -not -path "*/_site/*" -not -path "*/.git/*" | sort); do
   if grep -q "<pre><code" "$html"; then
     grep -q "/assets/copy-code.js" "$html" || fail "copy-code.js is not loaded by $html"
