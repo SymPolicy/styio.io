@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-09T03:40:33Z",
+  "title": "Design System: Styio",
+  "extensions": {
+    "colorMeta": {
+      "cool-black": {
+        "role": "neutral",
+        "displayName": "Cool Black",
+        "canonical": "#101116",
+        "tonalRamp": ["oklch(15% 0.012 275)", "oklch(25% 0.014 275)", "oklch(36% 0.014 275)", "oklch(48% 0.013 275)", "oklch(60% 0.012 275)", "oklch(72% 0.010 275)", "oklch(84% 0.008 275)", "oklch(95% 0.004 275)"]
+      },
+      "fog-white": {
+        "role": "neutral",
+        "displayName": "Fog White",
+        "canonical": "#f4f5fb",
+        "tonalRamp": ["oklch(15% 0.012 275)", "oklch(25% 0.014 275)", "oklch(36% 0.014 275)", "oklch(48% 0.013 275)", "oklch(60% 0.012 275)", "oklch(72% 0.010 275)", "oklch(84% 0.008 275)", "oklch(95% 0.004 275)"]
+      },
+      "cobalt-action": {
+        "role": "primary",
+        "displayName": "Cobalt Action",
+        "canonical": "#4054e8",
+        "tonalRamp": ["oklch(15% 0.10 275)", "oklch(25% 0.14 275)", "oklch(36% 0.18 275)", "oklch(48% 0.22 275)", "oklch(60% 0.24 275)", "oklch(72% 0.20 275)", "oklch(84% 0.13 275)", "oklch(95% 0.05 275)"]
+      },
+      "periwinkle": {
+        "role": "primary",
+        "displayName": "Periwinkle Signal",
+        "canonical": "#a6b6ff",
+        "tonalRamp": ["oklch(15% 0.07 270)", "oklch(25% 0.10 270)", "oklch(36% 0.13 270)", "oklch(48% 0.16 270)", "oklch(60% 0.17 270)", "oklch(72% 0.15 270)", "oklch(84% 0.10 270)", "oklch(95% 0.04 270)"]
+      },
+      "electric-fuchsia": {
+        "role": "secondary",
+        "displayName": "Electric Fuchsia",
+        "canonical": "#f6a5dc",
+        "tonalRamp": ["oklch(15% 0.07 335)", "oklch(25% 0.10 335)", "oklch(36% 0.14 335)", "oklch(48% 0.17 335)", "oklch(60% 0.18 335)", "oklch(72% 0.16 335)", "oklch(84% 0.11 335)", "oklch(95% 0.04 335)"]
+      },
+      "electric-cyan": {
+        "role": "tertiary",
+        "displayName": "Electric Cyan",
+        "canonical": "#86ddff",
+        "tonalRamp": ["oklch(15% 0.06 225)", "oklch(25% 0.09 225)", "oklch(36% 0.12 225)", "oklch(48% 0.15 225)", "oklch(60% 0.16 225)", "oklch(72% 0.14 225)", "oklch(84% 0.09 225)", "oklch(95% 0.03 225)"]
+      },
+      "light-fog": {
+        "role": "neutral",
+        "displayName": "Light Fog",
+        "canonical": "#f3f4f8",
+        "tonalRamp": ["oklch(15% 0.010 270)", "oklch(25% 0.011 270)", "oklch(36% 0.011 270)", "oklch(48% 0.010 270)", "oklch(60% 0.009 270)", "oklch(72% 0.008 270)", "oklch(84% 0.006 270)", "oklch(95% 0.003 270)"]
+      },
+      "light-blue": {
+        "role": "primary",
+        "displayName": "Deep Light Blue",
+        "canonical": "#354fbd",
+        "tonalRamp": ["oklch(15% 0.08 270)", "oklch(25% 0.12 270)", "oklch(36% 0.16 270)", "oklch(48% 0.19 270)", "oklch(60% 0.18 270)", "oklch(72% 0.15 270)", "oklch(84% 0.10 270)", "oklch(95% 0.04 270)"]
+      },
+      "manifesto-cobalt": {
+        "role": "primary",
+        "displayName": "Manifesto Cobalt",
+        "canonical": "#2638ad",
+        "tonalRamp": ["oklch(15% 0.09 275)", "oklch(25% 0.13 275)", "oklch(36% 0.17 275)", "oklch(48% 0.20 275)", "oklch(60% 0.19 275)", "oklch(72% 0.16 275)", "oklch(84% 0.10 275)", "oklch(95% 0.04 275)"]
+      }
+    },
+    "typographyMeta": {
+      "display": {"displayName": "Monumental Display", "purpose": "Home hero and the largest symbolic statements."},
+      "headline": {"displayName": "Section Headline", "purpose": "Section, documentation, and recovery headings."},
+      "body": {"displayName": "Reading Body", "purpose": "Product explanation and long-form documentation."},
+      "label": {"displayName": "Compact Label", "purpose": "Navigation, metadata, controls, and actions."},
+      "code": {"displayName": "Symbolic Code", "purpose": "Styio examples, commands, operators, and diagrams."}
+    },
+    "shadows": [],
+    "motion": [
+      {"name": "ease-flow", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "Directional reveals, arrows, rotation, and state transitions."},
+      {"name": "tab-enter", "value": "450ms cubic-bezier(.16, 1, .3, 1)", "purpose": "Selected operator panel transition."},
+      {"name": "heading-reveal", "value": "850ms cubic-bezier(.16, 1, .3, 1)", "purpose": "One-time in-view heading reveal when motion is allowed."},
+      {"name": "sculpture-float", "value": "10s ease-in-out infinite", "purpose": "Slow vertical and rotational drift of the hero artwork."},
+      {"name": "sculpture-reflection", "value": "7s ease-in-out infinite", "purpose": "Alpha-masked light sweep across the hero artwork."}
+    ],
+    "breakpoints": [
+      {"name": "compact-wide", "value": "1100px"},
+      {"name": "mobile", "value": "760px"},
+      {"name": "small-mobile", "value": "390px"},
+      {"name": "large-viewport", "value": "1600px"}
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main install and recovery action with a directional arrow.",
+      "html": "<a class=\"ds-button-primary\" href=\"#\">Install Styio <span aria-hidden=\"true\">-&gt;</span></a>",
+      "css": ".ds-button-primary { display:inline-flex; align-items:center; justify-content:space-between; gap:35px; min-height:54px; padding:16px 22px; border:1px solid var(--button-bg); border-radius:3px; background:var(--button-bg); color:var(--button-ink); font-family:var(--font-body); font-size:14px; font-weight:500; text-decoration:none; transition:background .2s,color .2s; } .ds-button-primary span { transition:transform .4s var(--ease); } .ds-button-primary:hover { background:var(--ink); color:var(--bg); border-color:var(--ink); } .ds-button-primary:hover span { transform:translateX(4px); } .ds-button-primary:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }"
+    },
+    {
+      "name": "Install Navigation Action",
+      "kind": "nav",
+      "refersTo": "navigation-install",
+      "description": "Compact bordered install route used in the shared header.",
+      "html": "<a class=\"ds-nav-install\" href=\"#\">Get Styio <span aria-hidden=\"true\">&#8599;</span></a>",
+      "css": ".ds-nav-install { display:inline-flex; align-items:center; gap:25px; min-height:44px; padding:12px 18px; border:1px solid var(--line); border-radius:3px; color:var(--ink); font-family:var(--font-body); font-size:13px; text-decoration:none; transition:background .2s,color .2s; } .ds-nav-install:hover { background:var(--ink); color:var(--bg); } .ds-nav-install:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "description": "Underlined directional link used for secondary routes.",
+      "html": "<a class=\"ds-text-link\" href=\"#\">Explore the language <span aria-hidden=\"true\">&#8595;</span></a>",
+      "css": ".ds-text-link { display:inline-flex; align-items:center; gap:18px; padding:10px 0; border-bottom:1px solid var(--line); color:var(--ink); font-family:var(--font-body); font-size:13px; text-decoration:none; transition:color .2s,border-color .2s; } .ds-text-link:hover { color:var(--accent); border-color:currentColor; } .ds-text-link:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }"
+    },
+    {
+      "name": "Operator Tab",
+      "kind": "custom",
+      "description": "Symbol-led language principle selector with an explicit selected state.",
+      "html": "<button class=\"ds-operator-tab\" type=\"button\" role=\"tab\" aria-selected=\"true\"><span class=\"ds-operator-symbol\" aria-hidden=\"true\">&gt;&gt;</span><span class=\"ds-operator-copy\">Stream-native<small>Let the data lead.</small></span><span class=\"ds-operator-arrow\" aria-hidden=\"true\">-&gt;</span></button>",
+      "css": ".ds-operator-tab { width:100%; min-height:90px; display:flex; align-items:center; gap:28px; padding:27px 0; border:0; border-block:1px solid var(--line); background:none; color:var(--muted); text-align:left; } .ds-operator-symbol { width:74px; flex:none; font-family:var(--font-code); font-size:43px; line-height:1; transition:transform .5s var(--ease); } .ds-operator-copy { font-family:var(--font-display); font-size:25px; line-height:1.2; letter-spacing:-.025em; } .ds-operator-copy small { display:block; margin-top:8px; color:var(--muted); font-family:var(--font-body); font-size:12px; letter-spacing:0; } .ds-operator-arrow { margin-left:auto; opacity:0; transform:translateX(-12px); transition:opacity .2s,transform .4s var(--ease); } .ds-operator-tab[aria-selected=\"true\"] { color:var(--ink); } .ds-operator-tab[aria-selected=\"true\"] .ds-operator-symbol { color:var(--accent-secondary); } .ds-operator-tab[aria-selected=\"true\"] .ds-operator-arrow,.ds-operator-tab:hover .ds-operator-arrow { opacity:1; transform:none; } .ds-operator-tab:hover .ds-operator-symbol { transform:translateX(5px); } .ds-operator-tab:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }"
+    },
+    {
+      "name": "Code Panel",
+      "kind": "card",
+      "refersTo": "code-panel",
+      "description": "Theme-aware code surface with a compact copy action and semantic syntax.",
+      "html": "<div class=\"ds-code-panel\"><button class=\"ds-code-copy\" type=\"button\" aria-label=\"Copy code\">&#9633;</button><pre><code><span>@stdin</span> &gt;&gt; #(n) =&gt; n -&gt; @stdout</code></pre></div>",
+      "css": ".ds-code-panel { position:relative; overflow:hidden; border-radius:4px; background:var(--code-bg); color:var(--code-ink); } .ds-code-panel pre { margin:0; padding:55px 25px 30px; overflow:auto; color:inherit; font-family:var(--font-code); font-size:13px; line-height:1.85; } .ds-code-panel code span { color:var(--accent); } .ds-code-copy { position:absolute; top:8px; right:8px; width:36px; height:36px; display:grid; place-items:center; padding:8px; border:0; border-radius:3px; background:var(--code-bg); color:var(--muted); } .ds-code-copy:hover { color:var(--ink); background:var(--surface); } .ds-code-copy:focus-visible { outline:2px solid var(--accent); outline-offset:2px; } .ds-code-copy:active { color:var(--accent); }"
+    },
+    {
+      "name": "Documentation Card",
+      "kind": "card",
+      "description": "Rule-separated reading route with a diagonal motion cue.",
+      "html": "<a class=\"ds-doc-card\" href=\"#\"><h2>Install Styio</h2><p>One-line install command, supported targets, and verification.</p><span aria-hidden=\"true\">&#8599;</span></a>",
+      "css": ".ds-doc-card { position:relative; display:block; padding:29px 48px 29px 0; border-block:1px solid var(--line); color:var(--ink); text-decoration:none; } .ds-doc-card h2 { margin:0 0 12px; font-family:var(--font-display); font-size:26px; font-weight:500; line-height:1.08; letter-spacing:-.04em; } .ds-doc-card p { max-width:72ch; margin:0; color:var(--muted); font-family:var(--font-body); font-size:14px; line-height:1.8; } .ds-doc-card > span { position:absolute; right:6px; top:32px; font-size:23px; transition:transform .3s var(--ease); } .ds-doc-card:hover h2 { color:var(--accent); } .ds-doc-card:hover > span { transform:translate(4px,-4px); } .ds-doc-card:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }"
+    },
+    {
+      "name": "Status Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Compact documentation metadata and platform label.",
+      "html": "<span class=\"ds-tag\">Apple Silicon</span>",
+      "css": ".ds-tag { display:inline-block; margin:2px 4px 2px 0; padding:2px 6px; border-radius:2px; background:var(--surface); color:var(--muted); font-family:var(--font-body); font-size:10px; line-height:1.6; white-space:normal; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Iridescent Direction",
+    "overview": "Styio turns its >> operator into substantial digital material. Monumental Syne typography, open composition, terse labels, and a liquid-chrome double-chevron sculpture make direction feel physical. Cool black and fog white establish the field; cobalt, cyan, fuchsia, and silver light carry action and flow.\n\nThe home page is vivid and kinetic. Documentation and error recovery use the same shell, typography, rules, and palette with a calmer reading rhythm. Content, navigation, and the hero artwork remain useful without animation or JavaScript.",
+    "keyCharacteristics": [
+      "Oversized display type paired with exact body and monospace text.",
+      "Real language operators used as functional diagrams and graphic signatures.",
+      "Flat interface surfaces contrasted with one luminous, material hero object.",
+      "Fluid motion that stops with user preference, visibility, and viewport state."
+    ],
+    "rules": [
+      {"name": "The Electric Signal Rule", "body": "Use saturated color to identify action, flow, selection, syntax, and the signature artwork; let neutral fields preserve its impact.", "section": "colors"},
+      {"name": "The Type Carries the Field Rule", "body": "Let scale, line breaks, and operators form the composition around the single sculptural hero.", "section": "typography"},
+      {"name": "The One Sculpture Rule", "body": "Keep ordinary surfaces flat and structural so the authored chrome operator remains the visual event.", "section": "elevation"}
+    ],
+    "dos": [
+      "Do use real Styio operators as diagrams, signatures, and navigation cues.",
+      "Do preserve the shared shell, persistent theme choice, dynamic browser theme color, and readable static state.",
+      "Do use electric color to communicate action, selection, focus, syntax, flow, or reflected light.",
+      "Do keep documentation typography, code tools, installation steps, and recovery paths clear before adding expression."
+    ],
+    "donts": [
+      "Don't restore the retired multi-family palette model behind the retained theme attribute names.",
+      "Don't add generic gradients, glossy cards, or decorative blobs to ordinary interface surfaces.",
+      "Don't animate hidden or offscreen work, run pose frames after settling, or make content depend on motion.",
+      "Don't create claims, telemetry, or user-data collection that the static product does not have."
+    ]
+  }
+}

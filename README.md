@@ -80,3 +80,14 @@ not enter Git history.
 
 See [docs/release-hosting.html](docs/release-hosting.html) for the operator
 flow and [docs/install.html](docs/install.html) for user-facing install notes.
+
+## Website Design
+
+The website uses static HTML, a shared stylesheet, and small progressive
+JavaScript enhancements. The home page's iridescent double-chevron sculpture
+uses a locally hosted image with progressive parallax and light motion; documentation keeps the same navigation,
+typography, theme preference, and code-copy controls. Self-hosted Syne and
+DM Sans fonts include their OFL licenses in `assets/fonts/`.
+
+See [DESIGN.md](DESIGN.md) for the current visual system and motion behavior,
+and [PRODUCT.md](PRODUCT.md) for product facts and the redesign scope.

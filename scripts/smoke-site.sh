@@ -24,6 +24,12 @@ for path in \
   docs/release-root-contract.html \
   docs/dns-and-pages.html \
   assets/copy-code.js \
+  assets/theme-init.js \
+  assets/site.js \
+  assets/sculpture.js \
+  assets/sculpture.webp \
+  assets/fonts/syne.woff2 \
+  assets/fonts/dm-sans.woff2 \
   assets/styio-logo.svg \
   release-index.json \
   tools/pafio/install-pafio.sh
@@ -46,6 +52,9 @@ if LC_ALL=C grep -R -n "[^ -~]" "$repo_root" \
   --exclude-dir=_site \
   --exclude-dir=.release-bundle \
   --exclude-dir=output \
+  --exclude-dir=.playwright-cli \
+  --exclude="*.webp" \
+  --exclude="*.woff2" \
   --exclude="*.png" >/dev/null 2>&1; then
   fail "non-ASCII text found in source"
 fi

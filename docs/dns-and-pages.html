@@ -3,30 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101116">
     <title>DNS and Pages - Styio</title>
     <meta name="description" content="Domain setup guidance for styio.io and Styio package hosting.">
-    <link rel="icon" href="/assets/styio-mark.svg?v=cool" type="image/svg+xml">
+    <link rel="icon" href="/assets/styio-mark.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css">
-    <script>(function(){var a=['cool','cool-dark'];var t=localStorage.getItem('styio-theme');if(a.indexOf(t)<0)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'cool':'cool-dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+    <script src="/assets/theme-init.js"></script>
   </head>
-  <body>
-    <header class="site-header">
-      <div class="header-inner">
-        <a class="brand" href="/">
-          <img src="/assets/styio-logo.svg" alt="Styio">
-        </a>
-        <nav class="nav" aria-label="Primary navigation">
-          <a href="/docs/install.html">Install</a>
-          <a href="/docs/">Docs</a>
-          <a href="https://github.com/SymPolicy/styio.io">GitHub</a>
-          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color scheme">
-            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          </button>
-        </nav>
-      </div>
-    </header>
-    <main class="wrap doc-layout">
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Styio home">styio<span aria-hidden="true">.</span></a>
+      <span class="header-note">A symbolic programming language</span>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="/#language">Language</a>
+        <a href="/docs/">Docs</a>
+        <a class="nav-install" href="/docs/install.html">Get Styio <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color scheme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none"/></svg></button>
+      </nav>
+    </div>
+  </header>
+    <main id="main" class="wrap doc-layout">
       <nav class="side-nav" aria-label="Documentation navigation">
         <a href="#start">Startup setup</a>
         <a href="#packages">Package domain</a>
@@ -53,7 +51,7 @@
         </p>
 
         <h3>Recommended DNS records</h3>
-        <table>
+        <div class="table-scroll" role="region" aria-label="Reference table; scroll horizontally on small screens" tabindex="0"><table>
           <thead>
             <tr>
               <th>Type</th>
@@ -72,7 +70,7 @@
             <tr><td><code>AAAA</code></td><td><code>@</code></td><td><code>2606:50c0:8003::153</code></td></tr>
             <tr><td><code>CNAME</code></td><td><code>www</code></td><td><code>SymPolicy.github.io</code></td></tr>
           </tbody>
-        </table>
+        </table></div>
         <p>
           Remove registrar parking, URL forwarding, and wildcard records before
           expecting GitHub Pages to serve the domain. HTTPS enforcement can be
@@ -100,5 +98,6 @@
     <script src="/assets/copy-code.js" defer></script>
     <script src="/assets/site-footer.js" defer></script>
     <script src="/assets/theme-toggle.js" defer></script>
+    <script src="/assets/site.js" defer></script>
   </body>
 </html>

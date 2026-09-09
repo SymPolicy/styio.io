@@ -1,11 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">Styio mark</title>
-  <desc id="desc">The word STYIO.</desc>
-  <style>
-    text { fill: #0B0C11; }
-    @media (prefers-color-scheme: dark) {
-      text { fill: #F7FBFC; }
-    }
-  </style>
-  <text x="32" y="37" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="15" font-weight="820" letter-spacing="1.35" text-anchor="middle">STYIO</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#101116"/><path d="m14 18 14 14-14 14m21-28 14 14-14 14" fill="none" stroke="#a6b6ff" stroke-width="5" stroke-linejoin="round"/></svg>
