@@ -81,6 +81,7 @@ fi
 
 if LC_ALL=C grep -R -n "[^ -~]" "$repo_root" \
   --exclude-dir=.git \
+  --exclude-dir=.commandcode \
   --exclude-dir=_site \
   --exclude-dir=.release-bundle \
   --exclude-dir=output \
