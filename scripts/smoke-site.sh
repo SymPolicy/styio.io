@@ -36,6 +36,10 @@ do
   [ -f "$tmp_dir/site/$path" ] || fail "missing built site file: $path"
 done
 
+if [ -e "$tmp_dir/site/docs/specs" ]; then
+  fail "internal docs/specs must not be published"
+fi
+
 python3 - "$tmp_dir/site" <<'PY'
 from html.parser import HTMLParser
 from pathlib import Path

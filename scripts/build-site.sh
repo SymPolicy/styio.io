@@ -43,6 +43,9 @@ copy_path "robots.txt"
 copy_path "styles.css"
 copy_path "tools"
 
+# Internal specs are repository material, not published pages.
+rm -rf "$site_dir/docs/specs"
+
 # Keep each page and its presentation assets on the same release in browser/CDN caches.
 asset_version="$(git -C "$repo_root" rev-parse --short=12 HEAD)"
 python3 - "$site_dir" "$asset_version" <<'PY'
