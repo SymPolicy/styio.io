@@ -22,7 +22,6 @@ for path in \
   docs/install.html \
   docs/release-hosting.html \
   docs/release-root-contract.html \
-  docs/dns-and-pages.html \
   assets/copy-code.js \
   assets/theme-init.js \
   assets/site.js \
